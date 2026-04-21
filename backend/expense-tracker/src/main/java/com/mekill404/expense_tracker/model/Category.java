@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity @Builder
+@Entity @Builder // pour permettre la création d'instances de Category avec un builder
 @Table(name = "category")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor

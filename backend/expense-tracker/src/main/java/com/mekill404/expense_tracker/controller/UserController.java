@@ -5,9 +5,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.mekill404.expense_tracker.model.User;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 
 @RestController // qui permet a spring de reconnaitre que c'est un controller
 @RequestMapping("/api/user") // qui permet de definir le chemin de base pour toutes les routes de ce controller
@@ -36,9 +42,15 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	public String registerUser()
+	public ResponseEntity<?> registerUser(@RequestBody @Validated RegisterRequestDTO req)
 	{
-		return ("User registered successfully");
+		User user = User.builder()
+				.email(req.getEmail())
+				.password(req.getPassword())
+				.build();
+		User savedUser = user; // ici on devrait appeler le service pour enregistrer l'utilisateur dans la base de données, mais pour l'instant on va juste retourner l'utilisateur créé
+		
+		return ResponseEntity.ok(user);
 	}
 
 	@PostMapping("/login")
